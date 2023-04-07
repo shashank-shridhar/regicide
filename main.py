@@ -6,6 +6,12 @@ class Player:
     def __init__(self,image):
         self.image = image
         self.rect = self.image.get_rect(topleft = (30,350))
+        self.gravity = 2
+        self.jump_height = 20
+        self.velocity = self.jump_height
+        self.pos_x = self.rect.x
+        self.pos_y = self.rect.y
+        self.jumping = False
 
     def control(self):
         keys = pygame.key.get_pressed()
@@ -14,6 +20,15 @@ class Player:
         if keys[pygame.K_a]:
             if(self.rect.x > 0 or self.rect.x <=500):
                 self.rect.move_ip(-4.75,0)
+        if keys[pygame.K_SPACE]:
+            self.jumping = True
+        if self.jumping:
+            self.rect.y -= self.velocity
+            self.velocity -= self.gravity
+            if self.velocity == -self.jump_height:
+                self.jumping = False
+                self.velocity = self.jump_height
+        
 class GoatDemon:
     def __init__(self,image):
         self.image = image
