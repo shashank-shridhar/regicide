@@ -5,16 +5,30 @@ import sys
 class Player:
     def __init__(self,image):
         self.image = image
-        
+        self.rect = self.image.get_rect(topleft = (30,350))
+
+    def control(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_d]:
+            self.rect.move_ip(4.75,0)
+        if keys[pygame.K_a]:
+            if(self.rect.x > 0 or self.rect.x <=500):
+                self.rect.move_ip(-4.75,0)
+class GoatDemon:
+    def __init__(self,image):
+        self.image = image
+        self.rect = self.image.get_rect(topleft = (300,300))
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.SCREEN_WIDTH = 600
-        self.SCREEN_HEIGHT = 600
-        self.SCREEN = pygame.display.set_mode((self.SCREEN_WIDTH,self.SCREEN_HEIGHT))
+        self.SCREEN_WIDTH = 500
+        self.SCREEN_HEIGHT = 500
+        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH,self.SCREEN_HEIGHT))
         pygame.display.set_caption('KnightGame')
         self.CLOCK = pygame.time.Clock()
+        self.demon = GoatDemon(self.get_image('cultist.png',24,24,1,5,None))
+        self.player = Player(self.get_image('knight.png',24,24,0,3,None))
         
 
     def get_image(self,sheet,width,height,frame,scale,color):
@@ -26,13 +40,14 @@ class Game:
     def update(self):
         self.CLOCK.tick(60)
         pygame.display.flip()
+        self.player.control()
         
         #I will probably need to call the player controls function here.
 
     def draw(self):
-        self.SCREEN.fill('black')
-        self.player = Player(self.get_image('knight.png',24,24,0,3,None))
-        self.SCREEN.blit(self.player.image,(30,30))
+        self.screen.fill('black')
+        self.screen.blit(self.player.image,self.player.rect)
+        self.screen.blit(self.demon.image,self.demon.rect)
 
     def check(self):
         for event in pygame.event.get():
@@ -44,8 +59,6 @@ class Game:
             self.update()
             self.draw()
             self.check()
-
-
 
 if __name__ == '__main__':
     game = Game()
