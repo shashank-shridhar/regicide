@@ -20,7 +20,7 @@ class Player:
         if keys[pygame.K_a]:
             if(self.rect.x > 0 or self.rect.x <=500):
                 self.rect.move_ip(-4.75,0)
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_w]:
             self.jumping = True
         if self.jumping:
             self.rect.y -= self.velocity
@@ -67,7 +67,7 @@ class Game:
     def check(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.quit()
+                sys.exit()
 
     def run(self):
         while True:
